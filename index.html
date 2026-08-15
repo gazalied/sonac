@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#081a39" />
+  <title>Momentum Hill — Classic / Mania Physics Hybrid</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div>
+        <h1>Momentum Hill</h1>
+        <p>Classic ground physics with a Mania-inspired ability layer</p>
+      </div>
+      <div class="actions">
+        <button id="pauseBtn" type="button">Pause</button>
+        <button id="restartBtn" type="button">Restart</button>
+        <button id="debugBtn" type="button">Physics</button>
+      </div>
+    </header>
+
+    <section class="game-wrap" aria-label="Playable momentum platformer">
+      <canvas id="game" width="320" height="180" tabindex="0" aria-label="Game canvas"></canvas>
+      <div id="startCard" class="overlay-card">
+        <h2>Momentum Hill</h2>
+        <p>Run, roll, preserve speed on slopes, clear the loop, activate starposts, and defeat the wrecking-ball machine.</p>
+        <p class="keys"><strong>Move:</strong> ← → / A D &nbsp; <strong>Roll:</strong> ↓ / S &nbsp; <strong>Jump:</strong> Z / Space<br><strong>Spin dash:</strong> hold ↓, tap Jump, release ↓ &nbsp; <strong>Drop dash:</strong> jump, press and hold Jump again until landing</p>
+        <button id="startBtn" type="button">Start</button>
+      </div>
+      <div id="statusCard" class="status-card" hidden></div>
+    </section>
+
+    <section class="touch-controls" aria-label="Touch controls">
+      <div class="dpad">
+        <button class="touch" data-key="left" aria-label="Move left">◀</button>
+        <button class="touch down" data-key="down" aria-label="Roll or look down">▼</button>
+        <button class="touch" data-key="right" aria-label="Move right">▶</button>
+      </div>
+      <button class="touch jump" data-key="jump" aria-label="Jump">JUMP</button>
+    </section>
+
+    <details class="notes">
+      <summary>Physics and legal note</summary>
+      <p>The simulation runs at a fixed 60 Hz and retains the documented Sonic 1 constants and state distinctions for running, reversing, rolling, jumping, air drag, slope resistance, and wall detachment. The ability layer is deliberately hybrid: roll-jumps retain air steering, while the spin dash and drop dash follow Sonic Mania-inspired charge and release rules. The level geometry, graphics, names, sounds, and layout are original placeholders; no Sega sprites, music, maps, or ROM data are included.</p>
+    </details>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>

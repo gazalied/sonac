@@ -1,0 +1,94 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #050b18;
+  color: #f6fbff;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; overscroll-behavior: none; }
+body {
+  background:
+    radial-gradient(circle at 50% -15%, rgba(42, 109, 203, .35), transparent 44rem),
+    linear-gradient(#08152c, #030711 70%);
+  min-height: 100dvh;
+}
+button { font: inherit; }
+.shell { width: min(1080px, 100%); margin: 0 auto; padding: 18px; }
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 12px; }
+h1 { font-size: clamp(1.2rem, 4vw, 2rem); margin: 0; letter-spacing: -.04em; }
+.topbar p { margin: 2px 0 0; color: #a9bdd8; font-size: .86rem; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.actions button, .overlay-card button {
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.09);
+  color: white;
+  border-radius: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.actions button:hover, .overlay-card button:hover { background: rgba(255,255,255,.16); }
+.game-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #0a1b3a;
+  border: 1px solid rgba(255,255,255,.16);
+  box-shadow: 0 24px 80px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,.04);
+}
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  touch-action: none;
+  outline: none;
+}
+.overlay-card, .status-card {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  width: min(520px, calc(100% - 30px));
+  padding: clamp(18px, 4vw, 30px);
+  border-radius: 18px;
+  background: rgba(3, 10, 24, .88);
+  border: 1px solid rgba(255,255,255,.19);
+  box-shadow: 0 20px 70px rgba(0,0,0,.5);
+  backdrop-filter: blur(14px);
+  text-align: center;
+}
+.overlay-card h2 { margin: 0 0 8px; font-size: clamp(1.7rem, 7vw, 3.2rem); letter-spacing: -.06em; }
+.overlay-card p { color: #c7d8ec; line-height: 1.5; }
+.overlay-card .keys { font-size: .9rem; }
+.status-card { font-weight: 700; font-size: clamp(1.2rem, 4vw, 2rem); }
+.touch-controls { display: none; justify-content: space-between; align-items: center; gap: 18px; padding: 16px 4px 0; user-select: none; }
+.dpad { display: grid; grid-template-columns: repeat(3, 64px); gap: 8px; }
+.touch {
+  height: 58px;
+  border: 1px solid rgba(255,255,255,.17);
+  background: rgba(255,255,255,.09);
+  color: white;
+  border-radius: 16px;
+  font-weight: 800;
+  touch-action: none;
+  box-shadow: inset 0 -3px rgba(0,0,0,.22);
+}
+.touch.active { transform: translateY(2px); background: rgba(255,255,255,.2); box-shadow: inset 0 -1px rgba(0,0,0,.2); }
+.touch.jump { width: 92px; height: 72px; border-radius: 50%; }
+.notes { margin-top: 14px; color: #b7c9df; font-size: .86rem; line-height: 1.5; }
+.notes summary { color: #eef7ff; cursor: pointer; }
+@media (pointer: coarse), (max-width: 760px) {
+  .shell { padding: 10px; }
+  .topbar { align-items: flex-start; }
+  .topbar p { display: none; }
+  .actions button { padding: 7px 9px; font-size: .78rem; }
+  .touch-controls { display: flex; }
+  .overlay-card .keys { display: none; }
+}
+@media (max-width: 420px) {
+  .dpad { grid-template-columns: repeat(3, 54px); }
+  .touch { height: 52px; }
+  .touch.jump { width: 82px; height: 66px; }
+}
