@@ -13,7 +13,7 @@ body {
   min-height: 100dvh;
 }
 button { font: inherit; }
-.shell { width: min(1080px, 100%); margin: 0 auto; padding: 18px; }
+.shell { width: min(920px, 100%); margin: 0 auto; padding: 18px; }
 .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 12px; }
 h1 { font-size: clamp(1.2rem, 4vw, 2rem); margin: 0; letter-spacing: -.04em; }
 .topbar p { margin: 2px 0 0; color: #a9bdd8; font-size: .86rem; }
@@ -30,7 +30,7 @@ h1 { font-size: clamp(1.2rem, 4vw, 2rem); margin: 0; letter-spacing: -.04em; }
 .game-wrap {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 4 / 3;
   border-radius: 18px;
   overflow: hidden;
   background: #0a1b3a;
@@ -92,3 +92,11 @@ canvas {
   .touch { height: 52px; }
   .touch.jump { width: 82px; height: 66px; }
 }
+
+.eyebrow { font: 800 .72rem/1 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .16em; color: #73e4ff; margin-bottom: 9px; }
+.zone-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0; }
+.overlay-card .zone-choice { display: grid; gap: 7px; min-height: 116px; text-align: left; padding: 14px; border-radius: 12px; background: rgba(255,255,255,.07); }
+.overlay-card .zone-choice.primary { background: linear-gradient(145deg, rgba(41,164,102,.24), rgba(40,121,205,.18)); border-color: rgba(129,242,160,.32); }
+.zone-choice strong { font: 900 .98rem/1.1 ui-monospace, SFMono-Regular, Menlo, monospace; text-transform: uppercase; }
+.zone-choice span { color: #bcd0e7; font-size: .76rem; line-height: 1.35; }
+@media (max-width: 620px) { .zone-grid { grid-template-columns: 1fr; } .overlay-card .zone-choice { min-height: 88px; } }

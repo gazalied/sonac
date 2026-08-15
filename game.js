@@ -6,7 +6,8 @@
   ctx.imageSmoothingEnabled = false;
 
   const startCard = document.getElementById('startCard');
-  const startBtn = document.getElementById('startBtn');
+  const menuBtn = document.getElementById('menuBtn');
+  const zoneLabel = document.getElementById('zoneLabel');
   const pauseBtn = document.getElementById('pauseBtn');
   const restartBtn = document.getElementById('restartBtn');
   const debugBtn = document.getElementById('debugBtn');
@@ -122,31 +123,222 @@
     }
   }
 
-  const anchors = [
-    [0, 140], [260, 140], [520, 127], [760, 151], [1040, 132], [1270, 140],
-    [1450, 140], [1780, 140], [1980, 126], [2200, 140], [2260, 140],
-    [2410, 136], [2570, 136], [2810, 108], [3080, 140], [3370, 148],
-    [3700, 118], [4050, 139], [4290, 140], [4480, 132], [4740, 121],
-    [5030, 147], [5350, 117], [5660, 143], [5950, 140], [6800, 140]
-  ];
-  const pits = [
-    [2262, 2408],
-    [4292, 4478]
-  ];
+  function makeRingTools(target) {
+    return {
+      line(x, y, count, dx, dy = 0) {
+        for (let i = 0; i < count; i += 1) target.push({ x: x + dx * i, y: y + dy * i, collected: false, phase: i * 0.35 });
+      },
+      arc(cx, cy, r, a0, a1, count) {
+        for (let i = 0; i < count; i += 1) {
+          const t = count === 1 ? 0 : i / (count - 1);
+          const a = a0 + (a1 - a0) * t;
+          target.push({ x: cx + Math.cos(a) * r, y: cy + Math.sin(a) * r, collected: false, phase: i * 0.3 });
+        }
+      }
+    };
+  }
+
+  function buildMomentumZone() {
+    const ringTemplate = [];
+    const r = makeRingTools(ringTemplate);
+    r.line(160, 116, 10, 19);
+    r.arc(700, 102, 62, Math.PI * 1.12, Math.PI * 1.88, 9);
+    r.line(980, 102, 8, 20, -1);
+    r.arc(1600, 82, 76, Math.PI * 0.15, Math.PI * 1.85, 18);
+    r.line(1900, 96, 10, 18, 1);
+    r.line(2287, 94, 6, 21, -2);
+    r.arc(2810, 80, 62, Math.PI * 1.08, Math.PI * 1.92, 10);
+    r.line(3200, 105, 12, 20);
+    r.arc(3720, 82, 58, Math.PI * 1.05, Math.PI * 1.95, 9);
+    r.line(4315, 86, 7, 23, -3);
+    r.line(4700, 82, 9, 20, 2);
+    r.arc(5350, 77, 60, Math.PI * 1.08, Math.PI * 1.92, 10);
+    r.line(5660, 105, 12, 18);
+    // Upper-route rewards: intentionally visible only after committing to a jump/spring line.
+    r.line(2685, 53, 8, 19);
+    r.line(4560, 55, 9, 19);
+
+    return {
+      id: 'momentum',
+      name: 'MOMENTUM HILL ZONE',
+      subtitle: 'Tropical momentum showcase · boss route',
+      length: 6800,
+      cameraMax: 6480,
+      deathY: 258,
+      spawn: { x: 84, y: 130 },
+      anchors: [
+        [0, 140], [260, 140], [520, 127], [760, 151], [1040, 132], [1270, 140],
+        [1450, 140], [1780, 140], [1980, 126], [2200, 140], [2260, 140],
+        [2410, 136], [2570, 136], [2810, 108], [3080, 140], [3370, 148],
+        [3700, 118], [4050, 139], [4290, 140], [4480, 132], [4740, 121],
+        [5030, 147], [5350, 117], [5660, 143], [5950, 140], [6800, 140]
+      ],
+      pits: [[2262, 2408], [4292, 4478]],
+      platforms: [
+        { x: 2280, y: 120, w: 52, h: 7, type: 'bridge' },
+        { x: 2340, y: 114, w: 52, h: 7, type: 'bridge' },
+        { x: 2668, y: 83, w: 58, h: 7, type: 'stone' },
+        { x: 2740, y: 71, w: 58, h: 7, type: 'stone' },
+        { x: 4312, y: 116, w: 54, h: 7, type: 'stone' },
+        { x: 4386, y: 100, w: 54, h: 7, type: 'stone' },
+        { x: 4630, y: 86, w: 62, h: 7, type: 'moving', baseY: 86, phase: 0 },
+        { x: 4870, y: 102, w: 56, h: 7, type: 'stone' },
+        { x: 4550, y: 74, w: 52, h: 7, type: 'bridge' },
+        { x: 4612, y: 61, w: 52, h: 7, type: 'bridge' }
+      ],
+      springs: [
+        { x: 2655, y: 125, w: 15, h: 11, power: 0xa00 },
+        { x: 4525, y: 121, w: 15, h: 11, power: 0x980 },
+        { x: 5585, y: 129, w: 15, h: 11, power: 0x8c0 }
+      ],
+      spikes: [
+        { x: 1120, y: 128, w: 30, h: 12 },
+        { x: 3560, y: 128, w: 36, h: 12 },
+        { x: 5740, y: 128, w: 34, h: 12 }
+      ],
+      checkpoints: [
+        { x: 3160, y: 113, active: false },
+        { x: 5230, y: 106, active: false }
+      ],
+      rings: ringTemplate,
+      enemies: [
+        { kind: 'wheel', x: 620, y: 110, minX: 560, maxX: 735, dir: -1, alive: true },
+        { kind: 'crab', x: 930, y: 118, minX: 875, maxX: 1030, dir: 1, alive: true, timer: 70 },
+        { kind: 'bomber', x: 1220, y: 75, minX: 1160, maxX: 1340, dir: 1, alive: true, timer: 100 },
+        { kind: 'ambusher', x: 1890, y: 102, dir: -1, alive: true, hidden: true, timer: 0 },
+        { kind: 'wheel', x: 2090, y: 108, minX: 2010, maxX: 2200, dir: -1, alive: true },
+        { kind: 'fish', x: 2335, y: 195, baseY: 195, alive: true, timer: 20 },
+        { kind: 'crab', x: 2920, y: 112, minX: 2860, maxX: 3030, dir: 1, alive: true, timer: 50 },
+        { kind: 'bomber', x: 3430, y: 78, minX: 3340, maxX: 3530, dir: -1, alive: true, timer: 80 },
+        { kind: 'ambusher', x: 3970, y: 105, dir: -1, alive: true, hidden: true, timer: 0 },
+        { kind: 'fish', x: 4370, y: 195, baseY: 195, alive: true, timer: 55 },
+        { kind: 'wheel', x: 4780, y: 98, minX: 4680, maxX: 4890, dir: 1, alive: true },
+        { kind: 'crab', x: 5520, y: 109, minX: 5450, maxX: 5640, dir: -1, alive: true, timer: 40 },
+        { kind: 'bomber', x: 5840, y: 74, minX: 5770, maxX: 5980, dir: 1, alive: true, timer: 60 }
+      ],
+      loop: { cx: 1600, cy: 82, radius: 58, entryX: 1592, exitX: 1607 },
+      labels: [
+        { x: 78, y: 104, text: 'GO!' },
+        { x: 1480, y: 30, text: 'MOMENTUM LOOP' },
+        { x: 2580, y: 36, text: 'SPRING ROUTE ↑' },
+        { x: 4235, y: 39, text: 'BRANCHING PATH' },
+        { x: 6060, y: 105, text: 'BOSS' }
+      ],
+      boss: { enabled: true, triggerX: 6100, x: 6370, y: 55, minX: 6250, maxX: 6575, arenaMin: 6075, arenaMax: 6750, cameraMin: 6070, cameraMax: 6460 },
+      goal: { x: 6715, y: 110, open: false }
+    };
+  }
+
+  function buildTestZone() {
+    const ringTemplate = [];
+    const r = makeRingTools(ringTemplate);
+    r.line(130, 112, 12, 18);
+    r.line(610, 90, 9, 18, -2);
+    r.arc(1360, 86, 74, Math.PI * 0.15, Math.PI * 1.85, 18);
+    r.line(1710, 86, 8, 18);
+    r.line(2050, 67, 8, 18);
+    r.line(2540, 103, 14, 18);
+    r.line(3030, 112, 10, 18);
+
+    return {
+      id: 'test',
+      name: 'PHYSICS TEST ZONE',
+      subtitle: 'Instrumented movement laboratory',
+      length: 3600,
+      cameraMax: 3280,
+      deathY: 264,
+      spawn: { x: 72, y: 130 },
+      anchors: [
+        [0, 140], [480, 140],                    // acceleration runway
+        [640, 118], [800, 158], [960, 118],     // slope / valley sequence
+        [1160, 140], [1240, 140], [1500, 140],  // loop runway
+        [1660, 140], [1840, 124], [1980, 140],  // spring approach
+        [2190, 140], [2250, 140],               // platform pit approach
+        [2490, 140], [2700, 140], [2860, 122], [3040, 140],
+        [3260, 140], [3600, 140]
+      ],
+      pits: [[2252, 2488]],
+      platforms: [
+        { x: 2275, y: 122, w: 54, h: 7, type: 'bridge' },
+        { x: 2340, y: 105, w: 54, h: 7, type: 'bridge' },
+        { x: 2410, y: 88, w: 54, h: 7, type: 'stone' },
+        { x: 2525, y: 112, w: 58, h: 7, type: 'stone' },
+        { x: 2630, y: 86, w: 64, h: 7, type: 'moving', baseY: 86, phase: 0 }
+      ],
+      springs: [
+        { x: 1900, y: 128, w: 15, h: 11, power: 0x980 },
+        { x: 1988, y: 128, w: 15, h: 11, power: 0xb00 }
+      ],
+      spikes: [
+        { x: 2865, y: 128, w: 34, h: 12 },
+        { x: 3155, y: 128, w: 34, h: 12 }
+      ],
+      checkpoints: [
+        { x: 2130, y: 113, active: false },
+        { x: 3000, y: 113, active: false }
+      ],
+      rings: ringTemplate,
+      enemies: [
+        { kind: 'wheel', x: 2780, y: 110, minX: 2730, maxX: 2825, dir: -1, alive: true },
+        { kind: 'crab', x: 3090, y: 118, minX: 3040, maxX: 3140, dir: 1, alive: true, timer: 70 }
+      ],
+      loop: { cx: 1360, cy: 82, radius: 58, entryX: 1352, exitX: 1367 },
+      labels: [
+        { x: 95, y: 91, text: '01  ACCELERATION RUNWAY' },
+        { x: 605, y: 68, text: '02  SLOPE / ROLL TEST' },
+        { x: 1230, y: 34, text: '03  LOOP ADHESION' },
+        { x: 1815, y: 74, text: '04  SPRINGS' },
+        { x: 2225, y: 49, text: '05  ONE-WAY PLATFORMS' },
+        { x: 2535, y: 52, text: '06  MOVING PLATFORM' },
+        { x: 2820, y: 77, text: '07  RING-LOSS / HAZARD' },
+        { x: 3220, y: 91, text: '08  DASH FINISH' }
+      ],
+      boss: { enabled: false, triggerX: Infinity, x: 0, y: 0, minX: 0, maxX: 0, arenaMin: 0, arenaMax: 0, cameraMin: 0, cameraMax: 0 },
+      goal: { x: 3505, y: 111, open: true }
+    };
+  }
+
+  const ZONE_BUILDERS = { momentum: buildMomentumZone, test: buildTestZone };
+  let activeZoneId = 'momentum';
+  let zone = buildMomentumZone();
+  let anchors = zone.anchors;
+  let pits = zone.pits;
+  let platforms = zone.platforms;
+  let springs = zone.springs;
+  let spikes = zone.spikes;
+  let checkpointsTemplate = zone.checkpoints;
+  let ringTemplate = zone.rings;
+  let enemiesTemplate = zone.enemies;
+  let loop = zone.loop;
+
+  function loadZoneData(id) {
+    activeZoneId = ZONE_BUILDERS[id] ? id : 'momentum';
+    zone = ZONE_BUILDERS[activeZoneId]();
+    anchors = zone.anchors;
+    pits = zone.pits;
+    platforms = zone.platforms.map(p => ({ ...p }));
+    springs = zone.springs.map(v => ({ ...v }));
+    spikes = zone.spikes.map(v => ({ ...v }));
+    checkpointsTemplate = zone.checkpoints.map(v => ({ ...v }));
+    ringTemplate = zone.rings.map(v => ({ ...v }));
+    enemiesTemplate = zone.enemies.map(v => ({ ...v }));
+    loop = { ...zone.loop };
+    if (zoneLabel) zoneLabel.textContent = `${zone.name} · ${zone.subtitle}`;
+  }
 
   function isPit(x) {
     return pits.some(([a, b]) => x > a && x < b);
   }
 
   function groundAt(x) {
-    if (x < 0 || x > 6800 || isPit(x)) return null;
+    if (x < 0 || x > zone.length || isPit(x)) return null;
     let i = 0;
     while (i < anchors.length - 2 && anchors[i + 1][0] < x) i += 1;
     const [x0, y0] = anchors[i];
     const [x1, y1] = anchors[Math.min(i + 1, anchors.length - 1)];
     const t = clamp((x - x0) / Math.max(1, x1 - x0), 0, 1);
-    const s = t * t * (3 - 2 * t);
-    return y0 + (y1 - y0) * s;
+    const smooth = t * t * (3 - 2 * t);
+    return y0 + (y1 - y0) * smooth;
   }
 
   function groundAngle(x) {
@@ -155,80 +347,6 @@
     if (y0 == null || y1 == null) return 0;
     return Math.atan2(y1 - y0, 2);
   }
-
-  const platforms = [
-    { x: 2280, y: 120, w: 52, h: 7, type: 'bridge' },
-    { x: 2340, y: 114, w: 52, h: 7, type: 'bridge' },
-    { x: 4312, y: 116, w: 54, h: 7, type: 'stone' },
-    { x: 4386, y: 100, w: 54, h: 7, type: 'stone' },
-    { x: 4630, y: 86, w: 62, h: 7, type: 'moving', baseY: 86, phase: 0 },
-    { x: 4870, y: 102, w: 56, h: 7, type: 'stone' }
-  ];
-
-  const springs = [
-    { x: 2655, y: 125, w: 15, h: 11, power: 0xa00 },
-    { x: 4525, y: 121, w: 15, h: 11, power: 0x980 }
-  ];
-
-  const spikes = [
-    { x: 1120, y: 128, w: 30, h: 12 },
-    { x: 3560, y: 128, w: 36, h: 12 },
-    { x: 5740, y: 128, w: 34, h: 12 }
-  ];
-
-  const checkpointsTemplate = [
-    { x: 3160, y: 113, active: false },
-    { x: 5230, y: 106, active: false }
-  ];
-
-  const ringTemplate = [];
-  function addRingLine(x, y, count, dx, dy = 0) {
-    for (let i = 0; i < count; i += 1) ringTemplate.push({ x: x + dx * i, y: y + dy * i, collected: false, phase: i * 0.35 });
-  }
-  function addRingArc(cx, cy, r, a0, a1, count) {
-    for (let i = 0; i < count; i += 1) {
-      const t = count === 1 ? 0 : i / (count - 1);
-      const a = a0 + (a1 - a0) * t;
-      ringTemplate.push({ x: cx + Math.cos(a) * r, y: cy + Math.sin(a) * r, collected: false, phase: i * 0.3 });
-    }
-  }
-  addRingLine(160, 116, 10, 19);
-  addRingArc(700, 102, 62, Math.PI * 1.12, Math.PI * 1.88, 9);
-  addRingLine(980, 102, 8, 20, -1);
-  addRingArc(1600, 82, 76, Math.PI * 0.15, Math.PI * 1.85, 18);
-  addRingLine(1900, 96, 10, 18, 1);
-  addRingLine(2287, 94, 6, 21, -2);
-  addRingArc(2810, 80, 62, Math.PI * 1.08, Math.PI * 1.92, 10);
-  addRingLine(3200, 105, 12, 20);
-  addRingArc(3720, 82, 58, Math.PI * 1.05, Math.PI * 1.95, 9);
-  addRingLine(4315, 86, 7, 23, -3);
-  addRingLine(4700, 82, 9, 20, 2);
-  addRingArc(5350, 77, 60, Math.PI * 1.08, Math.PI * 1.92, 10);
-  addRingLine(5660, 105, 12, 18);
-
-  const enemiesTemplate = [
-    { kind: 'wheel', x: 620, y: 110, minX: 560, maxX: 735, dir: -1, alive: true },
-    { kind: 'crab', x: 930, y: 118, minX: 875, maxX: 1030, dir: 1, alive: true, timer: 70 },
-    { kind: 'bomber', x: 1220, y: 75, minX: 1160, maxX: 1340, dir: 1, alive: true, timer: 100 },
-    { kind: 'ambusher', x: 1890, y: 102, dir: -1, alive: true, hidden: true, timer: 0 },
-    { kind: 'wheel', x: 2090, y: 108, minX: 2010, maxX: 2200, dir: -1, alive: true },
-    { kind: 'fish', x: 2335, y: 195, baseY: 195, alive: true, timer: 20 },
-    { kind: 'crab', x: 2920, y: 112, minX: 2860, maxX: 3030, dir: 1, alive: true, timer: 50 },
-    { kind: 'bomber', x: 3430, y: 78, minX: 3340, maxX: 3530, dir: -1, alive: true, timer: 80 },
-    { kind: 'ambusher', x: 3970, y: 105, dir: -1, alive: true, hidden: true, timer: 0 },
-    { kind: 'fish', x: 4370, y: 195, baseY: 195, alive: true, timer: 55 },
-    { kind: 'wheel', x: 4780, y: 98, minX: 4680, maxX: 4890, dir: 1, alive: true },
-    { kind: 'crab', x: 5520, y: 109, minX: 5450, maxX: 5640, dir: -1, alive: true, timer: 40 },
-    { kind: 'bomber', x: 5840, y: 74, minX: 5770, maxX: 5980, dir: 1, alive: true, timer: 60 }
-  ];
-
-  const loop = {
-    cx: 1600,
-    cy: 82,
-    radius: 58,
-    entryX: 1592,
-    exitX: 1607
-  };
 
   function freshGame() {
     return {
@@ -244,8 +362,8 @@
       boss: {
         active: false,
         defeated: false,
-        x: 6370,
-        y: 56,
+        x: zone.boss.x,
+        y: zone.boss.y,
         vx: 1.15,
         hp: 8,
         invuln: 0,
@@ -253,11 +371,11 @@
         arenaLocked: false,
         escape: 0
       },
-      goal: { x: 6715, y: 110, open: false },
+      goal: { x: zone.goal.x, y: zone.goal.y, open: zone.goal.open },
       won: false,
       player: {
-        x: toFp(84),
-        y: toFp(130),
+        x: toFp(zone.spawn.x),
+        y: toFp(zone.spawn.y),
         vx: 0,
         vy: 0,
         gsp: 0,
@@ -277,8 +395,8 @@
         hurt: 0,
         dead: false,
         deathTimer: 0,
-        respawnX: 84,
-        respawnY: 130,
+        respawnX: zone.spawn.x,
+        respawnY: zone.spawn.y,
         loopMode: false,
         loopProgress: 0,
         loopDirection: 1,
@@ -352,14 +470,35 @@
     });
   });
 
-  startBtn.addEventListener('click', () => {
+  function startZone(id) {
     ensureAudio();
+    loadZoneData(id);
+    game = freshGame();
+    showDebug = id === 'test';
     startCard.hidden = true;
+    statusCard.hidden = true;
     running = true;
     paused = false;
+    pauseBtn.textContent = 'Pause';
     lastTime = performance.now();
+    accumulator = 0;
     canvas.focus();
+  }
+
+  document.querySelectorAll('.zone-choice').forEach(button => {
+    button.addEventListener('click', () => startZone(button.dataset.zone));
   });
+
+  function showZoneMenu() {
+    running = false;
+    paused = false;
+    statusCard.hidden = true;
+    pauseBtn.textContent = 'Pause';
+    startCard.hidden = false;
+    Object.keys(keys).forEach(k => { keys[k] = false; pressed[k] = false; });
+  }
+
+  menuBtn.addEventListener('click', showZoneMenu);
   pauseBtn.addEventListener('click', togglePause);
   restartBtn.addEventListener('click', resetGame);
   debugBtn.addEventListener('click', () => { showDebug = !showDebug; canvas.focus(); });
@@ -374,6 +513,7 @@
   }
 
   function resetGame() {
+    loadZoneData(activeZoneId);
     game = freshGame();
     statusCard.hidden = true;
     paused = false;
@@ -768,12 +908,12 @@
       p.x = toFp(8);
       p.vx = Math.max(0, p.vx);
     }
-    if (game.boss.arenaLocked && x < 6075) {
-      p.x = toFp(6075);
+    if (game.boss.arenaLocked && x < zone.boss.arenaMin) {
+      p.x = toFp(zone.boss.arenaMin);
       p.vx = Math.max(0, p.vx);
     }
-    if (game.boss.arenaLocked && x > 6750) {
-      p.x = toFp(6750);
+    if (game.boss.arenaLocked && x > zone.boss.arenaMax) {
+      p.x = toFp(zone.boss.arenaMax);
       p.vx = Math.min(0, p.vx);
     }
 
@@ -808,7 +948,7 @@
       }
     }
 
-    if (playerY() > 210) killPlayer('fall');
+    if (playerY() > zone.deathY) killPlayer('fall');
   }
 
   function updatePlayer() {
@@ -830,8 +970,8 @@
     else updateAirPlayer();
 
     const x = playerX();
-    if (!game.boss.active && x > 6100) activateBoss();
-    if (x > 6780) p.x = toFp(6780);
+    if (zone.boss.enabled && !game.boss.active && x > zone.boss.triggerX) activateBoss();
+    if (x > zone.length - 20) p.x = toFp(zone.length - 20);
   }
 
   function respawnPlayer() {
@@ -862,7 +1002,7 @@
     p.rings = 0;
     p.loopMode = false;
     p.loopCooldown = 60;
-    game.camera.x = clamp(p.respawnX - 90, 0, 6480);
+    game.camera.x = clamp(p.respawnX - 90, 0, zone.cameraMax);
   }
 
   function killPlayer(reason = 'hit') {
@@ -1123,16 +1263,18 @@
   }
 
   function activateBoss() {
+    if (!zone.boss.enabled) return;
     game.boss.active = true;
     game.boss.arenaLocked = true;
-    game.boss.x = 6370;
-    game.boss.y = 55;
+    game.boss.x = zone.boss.x;
+    game.boss.y = zone.boss.y;
     game.boss.hp = 8;
     game.boss.vx = 1.15;
-    spawnParticle(6120, 116, 'dust', 16);
+    spawnParticle(zone.boss.triggerX + 20, 116, 'dust', 16);
   }
 
   function updateBoss() {
+    if (!zone.boss.enabled) return;
     const b = game.boss;
     if (!b.active) return;
     if (b.invuln > 0) b.invuln -= 1;
@@ -1149,8 +1291,8 @@
     }
 
     b.x += b.vx;
-    if (b.x < 6250 || b.x > 6575) b.vx *= -1;
-    b.y = 55 + Math.sin(game.frame * 0.035) * 7;
+    if (b.x < zone.boss.minX || b.x > zone.boss.maxX) b.vx *= -1;
+    b.y = zone.boss.y + Math.sin(game.frame * 0.035) * 7;
     b.swing += 0.045;
 
     const p = game.player;
@@ -1188,7 +1330,7 @@
       p.gsp = 0;
       p.vx = 0;
       statusCard.hidden = false;
-      statusCard.textContent = `ZONE CLEAR — ${formatTime(game.time)} · ${p.rings} rings`;
+      statusCard.textContent = `${zone.name} CLEAR — ${formatTime(game.time)} · ${p.rings} rings`;
       audio?.win();
     }
   }
@@ -1210,10 +1352,10 @@
     let targetX = playerX() - 112;
     if (p.vx > toFp(4)) targetX += 24;
     if (p.vx < -toFp(4)) targetX -= 18;
-    if (game.boss.arenaLocked) targetX = clamp(targetX, 6070, 6460);
+    if (game.boss.arenaLocked) targetX = clamp(targetX, zone.boss.cameraMin, zone.boss.cameraMax);
     game.camera.x += (targetX - game.camera.x) * 0.09;
-    game.camera.x = clamp(game.camera.x, 0, 6480);
-    const targetY = clamp(playerY() - 92, -20, 40);
+    game.camera.x = clamp(game.camera.x, 0, zone.cameraMax);
+    const targetY = clamp(playerY() - 108, -30, 42);
     game.camera.y += (targetY - game.camera.y) * 0.06;
   }
 
@@ -1247,6 +1389,24 @@
   function worldToScreenY(y, parallax = 1) { return Math.round(y - game.camera.y * parallax); }
 
   function drawBackground() {
+    if (activeZoneId === 'test') {
+      ctx.fillStyle = '#102a2a';
+      ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = '#153637';
+      for (let x = -((Math.floor(game.camera.x * 0.25)) % 16); x < W; x += 16) ctx.fillRect(x, 0, 1, H);
+      for (let y = 0; y < H; y += 16) ctx.fillRect(0, y, W, 1);
+      ctx.fillStyle = '#1e4b48';
+      ctx.fillRect(0, 96, W, 2);
+      ctx.font = 'bold 8px monospace';
+      ctx.fillStyle = '#5ba79e';
+      ctx.fillText('MOMENTUM ENGINE // INSTRUMENTED TEST ENVIRONMENT', 8, 45);
+      ctx.fillStyle = '#255b55';
+      for (let x = -64; x < W + 64; x += 64) {
+        const sx = Math.floor(x - (game.camera.x * 0.08) % 64);
+        ctx.fillRect(sx, 71, 32, 2);
+      }
+      return;
+    }
     const sky = ctx.createLinearGradient(0, 0, 0, H);
     sky.addColorStop(0, '#187bd0');
     sky.addColorStop(0.62, '#54c7e7');
@@ -1287,7 +1447,7 @@
     ctx.fill();
 
     ctx.fillStyle = '#258eca';
-    ctx.fillRect(0, 153 - game.camera.y * 0.1, W, 27);
+    ctx.fillRect(0, 153 - game.camera.y * 0.1, W, H - 153 + game.camera.y * 0.1);
     ctx.fillStyle = 'rgba(255,255,255,.22)';
     for (let i = 0; i < 12; i += 1) {
       const y = 157 + i * 3 - game.camera.y * 0.1;
@@ -1298,7 +1458,7 @@
 
   function drawGround() {
     const start = Math.max(0, Math.floor(game.camera.x) - 4);
-    const end = Math.min(6800, Math.ceil(game.camera.x + W) + 4);
+    const end = Math.min(zone.length, Math.ceil(game.camera.x + W) + 4);
     let segmentStart = null;
     let points = [];
 
@@ -1310,25 +1470,25 @@
       ctx.lineTo(worldToScreenX(points[points.length - 1][0]), H + 40);
       ctx.lineTo(worldToScreenX(points[0][0]), H + 40);
       ctx.closePath();
-      ctx.fillStyle = '#a75f2b';
+      ctx.fillStyle = activeZoneId === 'test' ? '#2b4a43' : '#a75f2b';
       ctx.fill();
       ctx.save();
       ctx.clip();
       for (let x = Math.floor(segmentStart / 16) * 16; x < points[points.length - 1][0] + 16; x += 16) {
-        for (let y = 136; y < 210; y += 16) {
+        for (let y = 120; y < H + 48; y += 16) {
           const odd = ((x / 16) + (y / 16)) & 1;
-          ctx.fillStyle = odd ? '#8f4426' : '#d0833b';
+          ctx.fillStyle = activeZoneId === 'test' ? (odd ? '#203b36' : '#365b51') : (odd ? '#8f4426' : '#d0833b');
           ctx.fillRect(worldToScreenX(x), worldToScreenY(y), 16, 16);
         }
       }
       ctx.restore();
-      ctx.strokeStyle = '#1f8f3a';
+      ctx.strokeStyle = activeZoneId === 'test' ? '#58b89b' : '#1f8f3a';
       ctx.lineWidth = 5;
       ctx.beginPath();
       ctx.moveTo(worldToScreenX(points[0][0]), worldToScreenY(points[0][1]));
       for (const [x, y] of points) ctx.lineTo(worldToScreenX(x), worldToScreenY(y));
       ctx.stroke();
-      ctx.strokeStyle = '#73d94a';
+      ctx.strokeStyle = activeZoneId === 'test' ? '#a7f1cd' : '#73d94a';
       ctx.lineWidth = 2;
       ctx.stroke();
       points = [];
@@ -1348,6 +1508,7 @@
   }
 
   function drawLoop() {
+    if (!loop) return;
     const sx = worldToScreenX(loop.cx);
     const sy = worldToScreenY(loop.cy);
     if (sx < -100 || sx > W + 100) return;
@@ -1367,6 +1528,24 @@
     ctx.strokeStyle = '#73d94a';
     ctx.lineWidth = 2;
     ctx.stroke();
+  }
+
+  function drawZoneLabels() {
+    if (!zone.labels) return;
+    ctx.save();
+    ctx.font = 'bold 7px monospace';
+    ctx.textBaseline = 'top';
+    for (const label of zone.labels) {
+      const x = worldToScreenX(label.x);
+      const y = worldToScreenY(label.y);
+      if (x < -160 || x > W + 40) continue;
+      const width = ctx.measureText(label.text).width + 8;
+      ctx.fillStyle = activeZoneId === 'test' ? 'rgba(4,20,24,.78)' : 'rgba(5,32,48,.72)';
+      ctx.fillRect(x - 4, y - 3, width, 12);
+      ctx.fillStyle = activeZoneId === 'test' ? '#9fffd3' : '#fff6a8';
+      ctx.fillText(label.text, x, y);
+    }
+    ctx.restore();
   }
 
   function drawPlatforms() {
@@ -1539,6 +1718,7 @@
   }
 
   function drawBoss() {
+    if (!zone.boss.enabled) return;
     const b = game.boss;
     if (!b.active) return;
     const x = worldToScreenX(b.x);
@@ -1674,7 +1854,8 @@
     ctx.shadowOffsetY = 1;
     ctx.fillStyle = '#fff';
     ctx.fillText('SCORE', 8, 7);
-    ctx.fillText(String((game.enemies.filter(e => !e.alive).length * 100 + (8 - game.boss.hp) * 1000)).padStart(6, '0'), 47, 7);
+    const bossScore = zone.boss.enabled ? (8 - game.boss.hp) * 1000 : 0;
+    ctx.fillText(String(game.enemies.filter(e => !e.alive).length * 100 + bossScore).padStart(6, '0'), 47, 7);
     ctx.fillText('TIME', 8, 17);
     ctx.fillText(formatTime(game.time), 47, 17);
     ctx.fillStyle = p.rings === 0 && (game.frame >> 4) % 2 ? '#ff4d4d' : '#ffe548';
@@ -1682,14 +1863,17 @@
     ctx.fillStyle = '#fff';
     ctx.fillText(String(p.rings).padStart(3, '0'), 47, 27);
     ctx.fillText(`LIVES ${p.lives}`, 255, 7);
+    ctx.fillStyle = activeZoneId === 'test' ? '#9fffd3' : '#d9f4ff';
+    ctx.fillText(activeZoneId === 'test' ? 'TEST' : 'MHZ', 286, 17);
     ctx.restore();
   }
 
   function drawDebug() {
-    if (!showDebug) return;
+    if (!showDebug && activeZoneId !== 'test') return;
     const p = game.player;
     ctx.fillStyle = 'rgba(0,0,0,.72)';
-    ctx.fillRect(5, 118, 154, 57);
+    const boxY = H - 66;
+    ctx.fillRect(5, boxY, 176, 61);
     ctx.font = '7px monospace';
     ctx.fillStyle = '#b8ffdb';
     const state = p.loopMode
@@ -1711,7 +1895,8 @@
       `angle ${(p.angle * 180 / Math.PI).toFixed(2)}°`,
       `60 Hz · 8.8-style constants`
     ];
-    lines.forEach((line, i) => ctx.fillText(line, 9, 122 + i * 8));
+    lines.push(`zone ${activeZoneId.toUpperCase()} · platform ${p.standingPlatform ?? '-'}`);
+    lines.forEach((line, i) => ctx.fillText(line, 9, boxY + 4 + i * 8));
   }
 
   function formatTime(seconds) {
@@ -1726,6 +1911,7 @@
     drawGround();
     drawLoop();
     drawDecor();
+    drawZoneLabels();
     drawPlatforms();
     drawSpringsAndSpikes();
     drawRings();
@@ -1759,10 +1945,14 @@
     requestAnimationFrame(frame);
   }
 
+  window.__momentumHillStartZone = startZone;
+  window.__momentumHillShowMenu = showZoneMenu;
+
   // Read-only state snapshot for diagnostics and automated input tests.
   window.__momentumHillSnapshot = () => {
     const p = game.player;
     return {
+      zone: activeZoneId,
       running,
       paused,
       frame: game.frame,
@@ -1844,11 +2034,11 @@
 
       // A rider must follow a vertically moving platform.
       game = freshGame();
-      const moving = platforms[4];
+      const moving = platforms.find(v => v.type === 'moving');
       game.player.x = toFp(moving.x + moving.w / 2);
       game.player.y = toFp(moving.y - game.player.radius);
       game.player.onGround = true;
-      game.player.standingPlatform = 4;
+      game.player.standingPlatform = platforms.indexOf(moving);
       const riderY = playerY();
       updatePlatforms();
       if (Math.abs((playerY() - riderY) - moving.deltaY) > 0.01) errors.push('moving platform carry');

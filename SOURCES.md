@@ -59,3 +59,6 @@ The Mania implementation requires an additional airborne Jump press, charges whi
 ## Deliberate non-identical parts
 
 The original games use tile collision masks, multiple floor and wall sensors, specific object collision routines, camera logic, animation timing, and numerous edge-case states. This browser build uses analytic terrain curves, circular player collision, one-way rectangle platforms, and a custom loop solver. Behavior near seams, corners, moving-object edges, and loops therefore cannot honestly be called one-to-one.
+
+## v3 design note
+Version 3 adds a 320x224 4:3 presentation, a separate instrumented Physics Test Zone, and additional momentum-dependent route ideas in Momentum Hill. These are project-level design decisions rather than claims of reproducing original level data. Momentum Hill deliberately does not include Green Hill Zone's copyrighted map, art, music, or ROM assets.

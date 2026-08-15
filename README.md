@@ -1,58 +1,55 @@
-# Momentum Hill — Classic / Mania Physics Hybrid
+# Momentum Hill v3 — Two-Zone Build
 
-A self-contained HTML5 Canvas platformer with a fixed 60 Hz update loop, 8.8-style subpixel values, documented Sonic 1 ground physics, and a deliberately modernized Sonic Mania-inspired ability layer.
+A browser-based momentum-platformer physics prototype with a classic 16-bit movement foundation and a Mania-inspired ability layer.
 
-## Run
+## Zones
 
-Open `index.html` in a modern browser. No build step or internet connection is required.
+### Physics Test Zone
+An instrumented movement lab designed to expose physics rather than hide them. It contains labeled stations for:
+- acceleration / braking runway
+- slope and rolling behavior
+- loop adhesion
+- springs
+- one-way platforms
+- vertically moving platforms
+- ring-loss / hazard behavior
+- checkpoints
+- dash finish
 
-For local hosting:
+The physics telemetry overlay is always visible here and reports state, position, ground speed, X/Y velocity, surface angle, zone, and standing-platform index.
 
-```bash
-python3 -m http.server 8000
-```
+### Momentum Hill Zone
+The playable showcase stage. It keeps the original tropical mock-up and expands it with:
+- momentum-driven terrain
+- loop traversal
+- upper spring/platform reward routes
+- rings, hazards, moving and one-way platforms
+- Badnik-style placeholder enemies
+- checkpoints
+- an eight-hit wrecking-ball boss
+- goal capsule
 
-Then open `http://localhost:8000`.
+Momentum Hill is an original level inspired by 16-bit momentum-platformer design grammar. It is not a copy of Green Hill Zone's map.
 
 ## Controls
-
-- Left/right: Arrow keys or A/D
-- Roll: Down or S while moving
+- Left / Right: Arrow keys or A / D
+- Roll / crouch: Down or S
 - Jump: Z, X, C, or Space
-- Spin dash: while nearly stationary, hold Down, tap Jump repeatedly, then release Down
-- Drop dash: jump, release Jump, then press and hold Jump again until landing
-- Pause: P or Escape
-- Restart: R
-- Physics overlay: F2
-- Mobile: on-screen direction and Jump controls
+- Spin dash: hold Down while stopped, tap Jump to charge, release Down
+- Drop dash: jump, press Jump again in the air, keep holding until landing
+- P / Escape: pause
+- R: restart current zone
+- F2 / Physics button: toggle telemetry (always shown in Test Zone)
+- Zones button: return to zone selector
 
-## Implemented systems
+## Physics
+The engine still runs at a fixed 60 Hz using the project's Sonic 1-derived 8.8-style constants. Roll-jumps intentionally keep air steering. Spin dash and drop dash remain part of the Mania-inspired hybrid layer.
 
-- Fixed 60 Hz deterministic game update
-- Ground speed separated from X/Y velocity
-- `0x600` maximum running speed
-- `0x0C` ground acceleration/friction
-- `0x80` reversal deceleration
-- `0x680` jump impulse
-- `0x38` gravity
-- Variable jump-height cutoff at `-0x400`
-- Double ground acceleration for air steering
-- Modernized roll-jump air steering instead of Sonic 1's roll-jump lock
-- Air drag based on velocity divided by 32
-- Rolling max speed, passive friction, reversal resistance, and stronger slope factor
-- Mania-inspired spin-dash charging, decay, quantized release speed, sound, and dust
-- Mania-inspired drop-dash second-press arming, 22-state charge threshold, momentum blending, and `0xC00` cap
-- Momentum-sensitive loop traversal and low-speed detachment
-- Rings, ring loss, damage invulnerability, lives, pits, spikes, springs
-- Starpost-style checkpoints
-- Five original enemy archetypes inspired by classic Badnik behaviors
-- Eight-hit wrecking-ball boss encounter
-- Correct one-way top collision for bridge, stone, and moving platforms
-- Moving-platform vertical carry
-- Keyboard and touch controls
+## Presentation
+v3 changes the canonical gameplay viewport from widescreen to **320×224, 4:3**, with integer-friendly pixel rendering. The two zones deliberately use different visual languages: an instrumented grid laboratory and a tropical showcase.
 
-## Accuracy boundary
+## Files
+Open `index.html` in a modern browser. No server or build step is required.
 
-The core running, rolling, jumping, gravity, and slope values are based on the Sonic 1 disassembly and Sonic Retro physics documentation. The spin dash and drop dash are adapted from the Sonic Mania decompilation, with its 16.16 values converted to this project's 8.8-style system. The collision geometry and loop implementation remain browser-native approximations rather than emulation of the original engines' tile masks and sensor code.
-
-The course, art, sound, names, and layout are original placeholders. No Sega sprites, music, level maps, or ROM data are included.
+## Legal / asset note
+No Sega sprites, music, maps, or ROM data are included. Graphics, geometry, sound synthesis, names, and layouts in this package are original placeholders.

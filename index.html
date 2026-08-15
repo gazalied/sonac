@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
   <meta name="theme-color" content="#081a39" />
-  <title>Momentum Hill — Classic / Mania Physics Hybrid</title>
+  <title>Momentum Hill v3 — Two-Zone Physics Build</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -12,9 +12,10 @@
     <header class="topbar">
       <div>
         <h1>Momentum Hill</h1>
-        <p>Classic ground physics with a Mania-inspired ability layer</p>
+        <p id="zoneLabel">Classic ground physics · Mania-inspired ability layer · 4:3 presentation</p>
       </div>
       <div class="actions">
+        <button id="menuBtn" type="button">Zones</button>
         <button id="pauseBtn" type="button">Pause</button>
         <button id="restartBtn" type="button">Restart</button>
         <button id="debugBtn" type="button">Physics</button>
@@ -22,12 +23,22 @@
     </header>
 
     <section class="game-wrap" aria-label="Playable momentum platformer">
-      <canvas id="game" width="320" height="180" tabindex="0" aria-label="Game canvas"></canvas>
+      <canvas id="game" width="320" height="224" tabindex="0" aria-label="Game canvas"></canvas>
       <div id="startCard" class="overlay-card">
-        <h2>Momentum Hill</h2>
-        <p>Run, roll, preserve speed on slopes, clear the loop, activate starposts, and defeat the wrecking-ball machine.</p>
+        <div class="eyebrow">MOMENTUM ENGINE v3</div>
+        <h2>Choose a Zone</h2>
+        <p>One zone exists to break the physics. The other exists to make them sing.</p>
+        <div class="zone-grid">
+          <button class="zone-choice" type="button" data-zone="test">
+            <strong>Physics Test Zone</strong>
+            <span>Runway · slopes · loop · springs · one-way platforms · moving platform · ring-loss · checkpoints · live telemetry</span>
+          </button>
+          <button class="zone-choice primary" type="button" data-zone="momentum">
+            <strong>Momentum Hill Zone</strong>
+            <span>Original tropical showcase · branching routes · momentum lines · enemies · checkpoints · wrecking-ball boss</span>
+          </button>
+        </div>
         <p class="keys"><strong>Move:</strong> ← → / A D &nbsp; <strong>Roll:</strong> ↓ / S &nbsp; <strong>Jump:</strong> Z / Space<br><strong>Spin dash:</strong> hold ↓, tap Jump, release ↓ &nbsp; <strong>Drop dash:</strong> jump, press and hold Jump again until landing</p>
-        <button id="startBtn" type="button">Start</button>
       </div>
       <div id="statusCard" class="status-card" hidden></div>
     </section>
@@ -42,8 +53,8 @@
     </section>
 
     <details class="notes">
-      <summary>Physics and legal note</summary>
-      <p>The simulation runs at a fixed 60 Hz and retains the documented Sonic 1 constants and state distinctions for running, reversing, rolling, jumping, air drag, slope resistance, and wall detachment. The ability layer is deliberately hybrid: roll-jumps retain air steering, while the spin dash and drop dash follow Sonic Mania-inspired charge and release rules. The level geometry, graphics, names, sounds, and layout are original placeholders; no Sega sprites, music, maps, or ROM data are included.</p>
+      <summary>Physics, presentation, and legal note</summary>
+      <p>The simulation runs at a fixed 60 Hz and retains the documented Sonic 1 constants and state distinctions for running, reversing, rolling, jumping, air drag, slope resistance, and wall detachment. The ability layer is deliberately hybrid: roll-jumps retain air steering, while the spin dash and drop dash use Sonic Mania-inspired rules. Version 3 adds a canonical 320×224 4:3 viewport and a dedicated instrumented test zone. All level geometry, graphics, names, sounds, and layouts are original placeholders inspired by the design language of 16-bit momentum platformers; no Sega sprites, music, maps, or ROM data are included.</p>
     </details>
   </main>
   <script src="game.js"></script>
