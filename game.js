@@ -138,94 +138,116 @@
     };
   }
 
+
   function buildMomentumZone() {
     const ringTemplate = [];
     const r = makeRingTools(ringTemplate);
-    r.line(160, 116, 10, 19);
-    r.arc(700, 102, 62, Math.PI * 1.12, Math.PI * 1.88, 9);
-    r.line(980, 102, 8, 20, -1);
-    r.arc(1600, 82, 76, Math.PI * 0.15, Math.PI * 1.85, 18);
-    r.line(1900, 96, 10, 18, 1);
-    r.line(2287, 94, 6, 21, -2);
-    r.arc(2810, 80, 62, Math.PI * 1.08, Math.PI * 1.92, 10);
-    r.line(3200, 105, 12, 20);
-    r.arc(3720, 82, 58, Math.PI * 1.05, Math.PI * 1.95, 9);
-    r.line(4315, 86, 7, 23, -3);
-    r.line(4700, 82, 9, 20, 2);
-    r.arc(5350, 77, 60, Math.PI * 1.08, Math.PI * 1.92, 10);
-    r.line(5660, 105, 12, 18);
-    // Upper-route rewards: intentionally visible only after committing to a jump/spring line.
-    r.line(2685, 53, 8, 19);
-    r.line(4560, 55, 9, 19);
+    r.line(126, 116, 12, 18);
+    r.line(520, 111, 8, 19, -1);
+    r.line(846, 108, 9, 18, -1);
+    r.line(1252, 116, 8, 18);
+    r.line(1562, 88, 9, 18, -2);
+    r.line(1828, 109, 8, 18);
+    r.line(2112, 90, 7, 18);
+    r.line(2635, 88, 7, 18);
+    r.line(3110, 115, 10, 18);
+    r.line(3560, 97, 8, 18);
+    r.line(4020, 104, 11, 18);
+    r.arc(4860, 82, 74, Math.PI * 0.18, Math.PI * 1.82, 18);
+    r.line(4510, 74, 10, 18);
+    r.line(5310, 70, 9, 18);
+    r.line(6070, 150, 10, 18);
+    r.line(6400, 143, 8, 18);
+    r.line(7150, 112, 7, 18);
+    r.line(7480, 102, 10, 18);
+    r.line(8100, 110, 10, 18);
+    r.line(8680, 112, 8, 18);
+    // Upper-route and reward strings.
+    r.line(2720, 54, 9, 18);
+    r.line(3330, 58, 7, 18);
+    r.line(4300, 55, 10, 18);
+    r.line(5220, 40, 12, 18);
+    r.line(7770, 86, 9, 18);
 
     return {
       id: 'momentum',
       name: 'MOMENTUM HILL ZONE',
-      subtitle: 'Tropical momentum showcase · boss route',
-      length: 6800,
-      cameraMax: 6480,
+      subtitle: 'Reference-layout showcase · true-course stress test',
+      length: 9200,
+      cameraMax: 8880,
       deathY: 258,
       spawn: { x: 84, y: 130 },
       anchors: [
-        [0, 140], [260, 140], [520, 127], [760, 151], [1040, 132], [1270, 140],
-        [1450, 140], [1780, 140], [1980, 126], [2200, 140], [2260, 140],
-        [2410, 136], [2570, 136], [2810, 108], [3080, 140], [3370, 148],
-        [3700, 118], [4050, 139], [4290, 140], [4480, 132], [4740, 121],
-        [5030, 147], [5350, 117], [5660, 143], [5950, 140], [6800, 140]
+        [0, 140], [320, 140], [440, 140], [560, 126], [680, 140], [820, 140],
+        [930, 131], [1048, 140],
+        [1218, 140], [1410, 140], [1560, 116], [1700, 140], [1810, 129], [1960, 140],
+        [2100, 104], [2240, 104], [2360, 140], [2500, 140], [2620, 110], [2780, 110],
+        [2920, 140], [3120, 140], [3260, 122], [3400, 129], [3540, 140], [3720, 140],
+        [3860, 120], [4020, 132], [4200, 132], [4380, 110], [4550, 122], [4700, 140],
+        [4850, 140], [5005, 140], [5170, 127], [5350, 110], [5500, 126], [5660, 140],
+        [5850, 156], [6030, 188], [6220, 176], [6460, 178], [6680, 178], [6920, 178],
+        [7118, 140], [7280, 140], [7440, 126], [7605, 136], [7770, 140], [7950, 140],
+        [8120, 126], [8290, 138], [8460, 140], [8650, 140], [8830, 140], [9200, 140]
       ],
-      pits: [[2262, 2408], [4292, 4478]],
+      pits: [[1060, 1210], [6930, 7110]],
       platforms: [
-        { x: 2280, y: 120, w: 52, h: 7, type: 'bridge' },
-        { x: 2340, y: 114, w: 52, h: 7, type: 'bridge' },
-        { x: 2668, y: 83, w: 58, h: 7, type: 'stone' },
-        { x: 2740, y: 71, w: 58, h: 7, type: 'stone' },
-        { x: 4312, y: 116, w: 54, h: 7, type: 'stone' },
-        { x: 4386, y: 100, w: 54, h: 7, type: 'stone' },
-        { x: 4630, y: 86, w: 62, h: 7, type: 'moving', baseY: 86, phase: 0 },
-        { x: 4870, y: 102, w: 56, h: 7, type: 'stone' },
-        { x: 4550, y: 74, w: 52, h: 7, type: 'bridge' },
-        { x: 4612, y: 61, w: 52, h: 7, type: 'bridge' }
+        { x: 1490, y: 95, w: 56, h: 7, type: 'stone' },
+        { x: 1745, y: 95, w: 56, h: 7, type: 'bridge' },
+        { x: 2680, y: 82, w: 58, h: 7, type: 'stone' },
+        { x: 2760, y: 68, w: 58, h: 7, type: 'stone' },
+        { x: 3270, y: 86, w: 58, h: 7, type: 'stone' },
+        { x: 3360, y: 72, w: 58, h: 7, type: 'bridge' },
+        { x: 4260, y: 84, w: 62, h: 7, type: 'stone' },
+        { x: 4340, y: 68, w: 62, h: 7, type: 'bridge' },
+        { x: 6200, y: 162, w: 58, h: 7, type: 'stone' },
+        { x: 6330, y: 150, w: 58, h: 7, type: 'moving', baseY: 150, phase: 0 },
+        { x: 7218, y: 111, w: 60, h: 7, type: 'stone' },
+        { x: 7750, y: 97, w: 56, h: 7, type: 'stone' },
+        { x: 7820, y: 84, w: 56, h: 7, type: 'bridge' }
       ],
       springs: [
-        { x: 2655, y: 125, w: 15, h: 11, power: 0xa00 },
-        { x: 4525, y: 121, w: 15, h: 11, power: 0x980 },
-        { x: 5585, y: 129, w: 15, h: 11, power: 0x8c0 }
+        { x: 2670, y: 95, w: 15, h: 11, power: 0x980 },
+        { x: 4246, y: 117, w: 15, h: 11, power: 0xa00 },
+        { x: 7195, y: 128, w: 15, h: 11, power: 0x940 },
+        { x: 7728, y: 128, w: 15, h: 11, power: 0x900 }
       ],
       spikes: [
-        { x: 1120, y: 128, w: 30, h: 12 },
-        { x: 3560, y: 128, w: 36, h: 12 },
-        { x: 5740, y: 128, w: 34, h: 12 }
+        { x: 918, y: 128, w: 30, h: 12 },
+        { x: 3545, y: 128, w: 36, h: 12 },
+        { x: 6490, y: 166, w: 34, h: 12 },
+        { x: 8700, y: 128, w: 34, h: 12 }
       ],
       checkpoints: [
-        { x: 3160, y: 113, active: false },
-        { x: 5230, y: 106, active: false }
+        { x: 3010, y: 113, active: false },
+        { x: 5980, y: 162, active: false },
+        { x: 8180, y: 113, active: false }
       ],
       rings: ringTemplate,
       enemies: [
-        { kind: 'wheel', x: 620, y: 110, minX: 560, maxX: 735, dir: -1, alive: true },
-        { kind: 'crab', x: 930, y: 118, minX: 875, maxX: 1030, dir: 1, alive: true, timer: 70 },
-        { kind: 'bomber', x: 1220, y: 75, minX: 1160, maxX: 1340, dir: 1, alive: true, timer: 100 },
-        { kind: 'ambusher', x: 1890, y: 102, dir: -1, alive: true, hidden: true, timer: 0 },
-        { kind: 'wheel', x: 2090, y: 108, minX: 2010, maxX: 2200, dir: -1, alive: true },
-        { kind: 'fish', x: 2335, y: 195, baseY: 195, alive: true, timer: 20 },
-        { kind: 'crab', x: 2920, y: 112, minX: 2860, maxX: 3030, dir: 1, alive: true, timer: 50 },
-        { kind: 'bomber', x: 3430, y: 78, minX: 3340, maxX: 3530, dir: -1, alive: true, timer: 80 },
-        { kind: 'ambusher', x: 3970, y: 105, dir: -1, alive: true, hidden: true, timer: 0 },
-        { kind: 'fish', x: 4370, y: 195, baseY: 195, alive: true, timer: 55 },
-        { kind: 'wheel', x: 4780, y: 98, minX: 4680, maxX: 4890, dir: 1, alive: true },
-        { kind: 'crab', x: 5520, y: 109, minX: 5450, maxX: 5640, dir: -1, alive: true, timer: 40 },
-        { kind: 'bomber', x: 5840, y: 74, minX: 5770, maxX: 5980, dir: 1, alive: true, timer: 60 }
+        { kind: 'wheel', x: 610, y: 110, minX: 540, maxX: 720, dir: -1, alive: true },
+        { kind: 'crab', x: 870, y: 118, minX: 810, maxX: 980, dir: 1, alive: true, timer: 70 },
+        { kind: 'bomber', x: 1590, y: 75, minX: 1510, maxX: 1700, dir: 1, alive: true, timer: 100 },
+        { kind: 'wheel', x: 2040, y: 84, minX: 1980, maxX: 2140, dir: -1, alive: true },
+        { kind: 'ambusher', x: 2440, y: 104, dir: -1, alive: true, hidden: true, timer: 0 },
+        { kind: 'crab', x: 2910, y: 118, minX: 2840, maxX: 3010, dir: 1, alive: true, timer: 50 },
+        { kind: 'bomber', x: 3460, y: 86, minX: 3380, maxX: 3570, dir: -1, alive: true, timer: 80 },
+        { kind: 'ambusher', x: 3970, y: 110, dir: -1, alive: true, hidden: true, timer: 0 },
+        { kind: 'wheel', x: 4490, y: 104, minX: 4410, maxX: 4610, dir: 1, alive: true },
+        { kind: 'crab', x: 5750, y: 146, minX: 5690, maxX: 5830, dir: -1, alive: true, timer: 40 },
+        { kind: 'fish', x: 6990, y: 196, baseY: 196, alive: true, timer: 35 },
+        { kind: 'wheel', x: 7420, y: 112, minX: 7340, maxX: 7560, dir: 1, alive: true },
+        { kind: 'bomber', x: 7890, y: 84, minX: 7810, maxX: 8010, dir: 1, alive: true, timer: 60 }
       ],
-      loop: { cx: 1600, cy: 82, radius: 58, entryX: 1592, exitX: 1607 },
+      loop: { cx: 4860, cy: 82, radius: 58, entryX: 4852, exitX: 4867 },
       labels: [
-        { x: 78, y: 104, text: 'GO!' },
-        { x: 1480, y: 30, text: 'MOMENTUM LOOP' },
-        { x: 2580, y: 36, text: 'SPRING ROUTE ↑' },
-        { x: 4235, y: 39, text: 'BRANCHING PATH' },
-        { x: 6060, y: 105, text: 'BOSS' }
+        { x: 82, y: 104, text: 'REFERENCE LAYOUT STUDY' },
+        { x: 2590, y: 36, text: 'UPPER ROUTE TEST' },
+        { x: 4700, y: 28, text: 'MAIN LOOP' },
+        { x: 6020, y: 126, text: 'LOWER VALLEY' },
+        { x: 8385, y: 105, text: 'BOSS' }
       ],
-      boss: { enabled: true, triggerX: 6100, x: 6370, y: 55, minX: 6250, maxX: 6575, arenaMin: 6075, arenaMax: 6750, cameraMin: 6070, cameraMax: 6460 },
-      goal: { x: 6715, y: 110, open: false }
+      boss: { enabled: true, triggerX: 8420, x: 8720, y: 55, minX: 8560, maxX: 8960, arenaMin: 8390, arenaMax: 9060, cameraMin: 8360, cameraMax: 8880 },
+      goal: { x: 9045, y: 110, open: false }
     };
   }
 

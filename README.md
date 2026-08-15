@@ -53,3 +53,7 @@ Open `index.html` in a modern browser. No server or build step is required.
 
 ## Legal / asset note
 No Sega sprites, music, maps, or ROM data are included. Graphics, geometry, sound synthesis, names, and layouts in this package are original placeholders.
+
+
+## Added reference layout
+- `reference-green-hill-layout.png`: the user-provided Green Hill style layout study that Momentum Hill v4 now follows much more closely in its main-zone terrain progression.
